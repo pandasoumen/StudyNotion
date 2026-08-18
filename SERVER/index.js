@@ -2,7 +2,7 @@
 const express = require("express");
 const app = express();
 const userRoutes = require("./routes/User");
-const profileRoutes = require("./routes/profile");
+const profileRoutes = require("./routes/Profile");
 const courseRoutes = require("./routes/Course");
 const paymentRoutes = require("./routes/Payments");
 const contactUsRoute = require("./routes/Contact");
@@ -13,11 +13,11 @@ const { cloudinaryConnect } = require("./config/cloudinary");
 const fileUpload = require("express-fileupload");
 const dotenv = require("dotenv");
 
-// Setting up port number
-const PORT = process.env.PORT || 4000;
-
 // Loading environment variables from .env file
 dotenv.config();
+
+// Setting up port number
+const PORT = process.env.PORT || 4000;
 
 // Connecting to database
 database.connect();
