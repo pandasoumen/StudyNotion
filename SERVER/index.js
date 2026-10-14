@@ -1,3 +1,6 @@
+// Load environment variables before importing modules that read them at startup.
+require("dotenv").config();
+
 // Importing necessary modules and packages
 const express = require("express");
 const app = express();
@@ -11,11 +14,6 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const { cloudinaryConnect } = require("./config/cloudinary");
 const fileUpload = require("express-fileupload");
-const dotenv = require("dotenv");
-
-// Loading environment variables from .env file
-dotenv.config();
-
 // Setting up port number
 const PORT = process.env.PORT || 4000;
 
@@ -25,9 +23,15 @@ database.connect();
 // Middlewares
 app.use(express.json());
 app.use(cookieParser());
+const allowedOrigins = new Set([
+	"http://localhost:3000",
+	...(process.env.FRONTEND_URL ? [process.env.FRONTEND_URL.replace(/\/$/, "")] : []),
+]);
 app.use(
 	cors({
-		origin: "*",
+		origin: (origin, callback) => {
+			callback(null, !origin || allowedOrigins.has(origin));
+		},
 		credentials: true,
 	})
 );

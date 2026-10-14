@@ -1,31 +1,30 @@
-# React & Tailwind CSS Starter Pack
+# StudyNotion
 
-This is a starter pack for creating React projects with Tailwind CSS configured. It uses React version **18.2** and Tailwind CSS version **3.2**.
+StudyNotion is a React frontend with an Express/MongoDB API.
 
-## Usage
+## Deploy
 
-This starter pack includes a basic setup for using **Tailwind CSS with React**. To start building your own components and styles, follow these steps:
+Deploy the frontend and API as separate services from this repository:
 
-1. Clone the repository to your local machine.
-    ```sh
-    git clone https://github.com/thepranaygupta/react-tailwind-css-starter-pack.git
-    ```
+### Render API
 
-1. Install the required packages.
-    ```sh
-    cd react-tailwind-css-starter-pack
-    npm install
-    ```
+Create a Render Blueprint from `render.yaml`, or create a Node web service with `SERVER` as its root directory, `npm ci` as its build command, and `npm start` as its start command. Set the backend environment variables in Render (never commit their values):
 
-1. Start the development server.
-    ```sh
-    npm start
-    ```
-1. Open the project in your browser at [`http://localhost:3000`](http://localhost:3000) to view your project.
-1. Create your React components and add your styles using Tailwind classes. You can also create new CSS files and import them into your components.
+- `MONGODB_URL`, `JWT_SECRET`
+- `MAIL_HOST`, `MAIL_USER`, `MAIL_PASS`
+- `CLOUD_NAME`, `API_KEY`, `API_SECRET`, `FOLDER_NAME`
+- `RAZORPAY_KEY`, `RAZORPAY_SECRET`
+- `FRONTEND_URL` (the deployed Vercel origin, without a trailing slash)
 
-The project is set up to use `postcss-cli` to process your CSS files. You can add your own `tailwind.config.js` file to customize your Tailwind setup.
+Render provides `PORT` automatically. The API health endpoint is `/`.
 
-## Contributing
+### Vercel frontend
 
-Contributions are welcome! If you have any suggestions or find any issues, please feel free to open an issue or a pull request.
+Import the repository into Vercel with the repository root as the project root. The existing `vercel.json` builds the React app and rewrites client-side routes to `index.html`. Set these frontend build environment variables in Vercel:
+
+- `REACT_APP_BASE_URL` (the Render API URL ending in `/api/v1`)
+- `REACT_APP_RAZORPAY_KEY` (the public Razorpay key ID)
+
+After the first Vercel deployment, set Render's `FRONTEND_URL` to that Vercel origin and redeploy the API so CORS and password-reset links use the right domain. For a custom frontend domain, update `FRONTEND_URL` to that origin as well.
+
+Do not commit `.env` files; configure secrets in the hosting providers' environment-variable settings.

@@ -3,7 +3,7 @@ services:
     name: studynotion-api
     env: node
     rootDir: SERVER
-    buildCommand: npm install
+    buildCommand: npm ci
     startCommand: npm start
     envVars:
       - key: MONGODB_URL
@@ -27,4 +27,6 @@ services:
       - key: RAZORPAY_KEY
         sync: false
       - key: RAZORPAY_SECRET
+        sync: false
+      - key: FRONTEND_URL
         sync: false
